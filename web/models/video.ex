@@ -15,12 +15,13 @@ defmodule Rumbl.Video do
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}) do
+  def changeset(struct, params \\ :empty) do
     struct
     |> cast(params, [ :url, :title, :description])
     |> validate_required([ :url, :title, :description])
+    |> assoc_constraint(:category)
   end
 
-  
+
 
 end
