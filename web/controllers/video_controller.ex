@@ -1,6 +1,9 @@
 defmodule Rumbl.VideoController do
   use Rumbl.Web, :controller
+  alias Rumbl.User
   alias Rumbl.Video
+  alias Rumbl.Category
+  alias Rumbl.Repo
 
   def action(conn, _) do
     apply(__MODULE__,action_name(conn),
@@ -9,6 +12,7 @@ defmodule Rumbl.VideoController do
 
   def index(conn, _params, user) do
     videos = Repo.all(user_videos(user))
+    videos = Repo.preload(videos, :category)
     render(conn, "index.html", videos: videos)
   end
 
@@ -36,6 +40,7 @@ defmodule Rumbl.VideoController do
 
   def show(conn, %{"id" => id}, user) do
     video = Repo.get!(user_videos(user), id)
+    video = Repo.preload(video, :category)
     render(conn, "show.html", video: video)
   end
 
@@ -71,7 +76,7 @@ defmodule Rumbl.VideoController do
     |> redirect(to: video_path(conn, :index))
   end
 
-  defp user_videos(user) do
+  def user_videos(user) do
     assoc(user, :videos)
   end
 
@@ -85,12 +90,22 @@ defmodule Rumbl.VideoController do
 
   end
 
-  plug :load_category_name when action in [:index]
-  defp load_category_name(conn, _) do
-    query = Category |> Category.name
-    categ_name = Repo.all query
-    assign(conn, :categ_name, categ_name)
+
+  def usvica1 do
+    user = Repo.one from u in User, where: u.id == 1
+    videos = Repo.all(Rumbl.VideoController.user_videos(user))
+    videos = Repo.preload(videos, :category)
+    [hvid|_] = videos
+    hvid.category.name
   end
+
+
+  # plug :load_category_name when action in [:index]
+  # defp load_category_name(conn, _) do
+  #   query = Category |> Category.name
+  #   categ_name = Repo.all query
+  #   assign(conn, :categ_name, categ_name)
+  # end
 
 
 

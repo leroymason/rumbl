@@ -20,4 +20,7 @@ defmodule Rumbl.Video do
     |> cast(params, [ :url, :title, :description])
     |> validate_required([ :url, :title, :description])
   end
+
+  
+
 end
