@@ -1,9 +1,9 @@
 defmodule Rumbl.VideoController do
  use Rumbl.Web, :controller
-  # alias Rumbl.User
+  alias Rumbl.User
   alias Rumbl.Video
   alias Rumbl.Category
-  # alias Rumbl.Repo
+  alias Rumbl.Repo
 
   plug :load_categories when action in [:new, :create, :edit, :update]
 
@@ -91,14 +91,17 @@ defmodule Rumbl.VideoController do
 
   end
 
+# import Ecto.Query
+# alias Rumbl.Repo
+# alias Rumbl.User / Video / Category
 
-  # def usvica1 do
-  #   user = Repo.one from u in User, where: u.id == 1
-  #   videos = Repo.all(Rumbl.VideoController.user_videos(user))
-  #   videos = Repo.preload(videos, :category)
-  #   [hvid|_] = videos
-  #   hvid.category.name
-  # end
+  def usvica1 do
+    user = Repo.one from u in User, where: u.id == 1
+    videos = Repo.all(Rumbl.VideoController.user_videos(user))
+    videos = Repo.preload(videos, :category)
+    [hvid|_] = videos
+    hvid.category.name
+  end
 
 
   # plug :load_category_name when action in [:index]

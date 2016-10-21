@@ -1,3 +1,11 @@
+/***
+ * Excerpted from "Programming Phoenix",
+ * published by The Pragmatic Bookshelf.
+ * Copyrights apply to this code. It may not be used to create training material,
+ * courses, books, articles, and the like. Contact us if you are in doubt.
+ * We make no guarantees that this code is fit for any purpose.
+ * Visit http://www.pragmaticprogrammer.com/titles/phoenix for more book information.
+***/
 // Brunch automatically concatenates all files in your
 // watched paths. Those paths can be configured at
 // config.paths.watched in "brunch-config.js".
@@ -18,4 +26,11 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
+import Player from "./player"
+let video = document.getElementById("video")
+
+if(video) {
+  Player.init(video.id, video.getAttribute("data-player-id"), () => {
+    console.log("player ready!")
+  })
+}
